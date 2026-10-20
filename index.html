@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>古风华容道</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 背景音乐 -->
+    <audio id="bgm" loop>
+        <source src="bgm.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- ========== 水墨风启动页（不变） ========== -->
+    <div id="start-screen">
+        <div class="start-content">
+            <h1>华容道</h1>
+            <p>东风不与周郎便，铜雀春深锁二乔</p>
+            <button id="start-btn">点击入阵</button>
+        </div>
+    </div>
+
+    <!-- ========== 右上角音乐切换按钮（新增） ========== -->
+    <button id="music-toggle" title="播放音乐">🎵</button>
+
+    <!-- ========== 主布局容器（新增包裹层） ========== -->
+    <div id="main-wrapper">
+
+        <!-- 左侧诗词卷轴 -->
+        <div class="poem-scroll" id="poem-left">
+            <p>大江东去，</p>
+            <p>浪淘尽，</p>
+            <p>千古风流人物。</p>
+        </div>
+
+        <!-- 中间游戏区 -->
+        <div id="game-container">
+            <div id="header">
+                <h2>横刀立马</h2>
+                <div id="steps-display">步数：<span id="steps">0</span></div>
+            </div>
+
+            <div id="board">
+                <div id="exit-gate"></div>
+            </div>
+
+            <!-- 操作提示（新增） -->
+            <p id="hint-text">点击方块进行移动，助曹操从下方缺口逃脱</p>
+
+            <button id="reset-btn">重置棋局</button>
+        </div>
+
+        <!-- 右侧诗词卷轴 -->
+        <div class="poem-scroll" id="poem-right">
+            <p>故垒西边，</p>
+            <p>人道是，</p>
+            <p>三国周郎赤壁。</p>
+        </div>
+
+    </div>
+
+    <!-- ========== 胜利弹窗（不变） ========== -->
+    <div id="win-modal" class="modal-hidden">
+        <div class="modal-content">
+            <h2>大捷</h2>
+            <p class="win-text">丞相已走华容道，关云长义释曹操</p>
+            <p class="win-steps">通关步数：<span id="final-steps">0</span> 步</p>
+            <button id="replay-btn">再战一局</button>
+        </div>
+    </div>
+
+    <!-- 原有游戏逻辑（不动） -->
+    <script src="script.js"></script>
+
+    <!-- 音乐按钮切换逻辑（新增内联脚本） -->
+    <script>
+    (function () {
+        var musicBtn = document.getElementById('music-toggle');
+        var bgm      = document.getElementById('bgm');
+
+        // 点击音乐按钮：切换播放 / 暂停
+        musicBtn.addEventListener('click', function () {
+            if (bgm.paused) {
+                bgm.play().catch(function (err) {
+                    console.log('音乐播放失败:', err);
+                });
+                musicBtn.textContent = '🔇';
+                musicBtn.title       = '暂停音乐';
+            } else {
+                bgm.pause();
+                musicBtn.textContent = '🎵';
+                musicBtn.title       = '播放音乐';
+            }
+        });
+
+        // 启动页"点击入阵"后，同步音乐按钮状态为"播放中"
+        document.getElementById('start-btn').addEventListener('click', function () {
+            setTimeout(function () {
+                musicBtn.textContent = '🔇';
+                musicBtn.title       = '暂停音乐';
+            }, 200);
+        });
+    })();
+    </script>
+
+</body>
+</html>
